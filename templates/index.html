@@ -55,7 +55,7 @@
     </div>
 
     <!-- Song Categories -->
-    <div class="grid grid-cols-5 gap-4 w-full">
+    <div class="grid grid-cols-6 gap-4 w-full">
       <!-- Ass/Angriff -->
       <div>
         <h2 class="text-xl font-bold mb-2 text-center">Ass/Angriff</h2>
@@ -92,9 +92,20 @@
           </div>
 	  </div>
       <div>
-        <h2 class="text-xl font-bold mb-2 text-center">Sonstiges</h2>
+        <h2 class="text-xl font-bold mb-2 text-center">_</h2>
         <div class="flex flex-col space-y-2">
           {% for song in categories.sonstiges %}
+          <button onclick="playAudio('static/music/{{ song.name }}')"
+            class="px-4 py-2 text-lg rounded-lg hover:opacity-80 w-full bg-green-600">
+            {{ song.icon }} {{ song.display_name }}
+          </button>
+          {% endfor %}
+        </div>
+        </div>
+       <div>
+        <h2 class="text-xl font-bold mb-2 text-center">_</h2>
+        <div class="flex flex-col space-y-2">
+          {% for song in categories.noch_mehr %}
           <button onclick="playAudio('static/music/{{ song.name }}')"
             class="px-4 py-2 text-lg rounded-lg hover:opacity-80 w-full bg-green-600">
             {{ song.icon }} {{ song.display_name }}

@@ -18,11 +18,13 @@ def index():
         "block": [],
         "gegner": [],
         "sonstiges": [],
+        "noch_mehr": [],
         "spass": [],
     }
 
     all_songs = []
 
+    i = 0
     for f in os.listdir(MUSIC_FOLDER):
         if f.endswith((".mp3", ".wav", ".ogg", ".flac")):
             icon = (
@@ -61,7 +63,11 @@ def index():
             elif "_FUN" in f.upper():
                 categories["spass"].append(song_data)
             else:
-                categories["sonstiges"].append(song_data)
+                if i % 2 == 0:
+                    categories["sonstiges"].append(song_data)
+                else:
+                    categories["noch_mehr"].append(song_data)
+                i += 1
 
     long_song_1_data = {
         "name": long_song_1_name,
