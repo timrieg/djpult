@@ -6,8 +6,8 @@ MUSIC_FOLDER = "static/music"
 
 timeout_song_name = "Timeout.mp3"
 walkon_song_name = "Walk-On.mp3"
-long_song_1_name = "Timeout.mp3"
-long_song_2_name = "Timeout.mp3"
+long_song_1_name = "Ma Chèrie.flac"
+long_song_2_name = "Blue.flac"
 
 
 @app.route("/")
@@ -24,10 +24,10 @@ def index():
     all_songs = []
 
     for f in os.listdir(MUSIC_FOLDER):
-        if f.endswith((".mp3", ".wav", ".ogg")):
+        if f.endswith((".mp3", ".wav", ".ogg", ".flac")):
             icon = (
                 "⚡"
-                if "HIT" in f.upper() or "ACE" in f.upper()
+                if "_HIT" in f.upper() or "_ACE" in f.upper()
                 else (
                     "✋✋"
                     if "BLOCK" in f.upper()
@@ -45,31 +45,32 @@ def index():
                 .replace("_OPP", "")
                 .replace("_FUN", "")
                 .replace(".mp3", "")
+                .replace(".flac", "")
                 .strip()
             )
             song_data = {"name": f, "display_name": clean_name, "icon": icon}
             all_songs.append(song_data)
 
             # Einsortieren in die richtige Kategorie
-            if "HIT" in f.upper() or "ACE" in f.upper():
+            if "_HIT" in f.upper() or "_ACE" in f.upper():
                 categories["ass_angriff"].append(song_data)
-            elif "BLOCK" in f.upper():
+            elif "_BLOCK" in f.upper():
                 categories["block"].append(song_data)
-            elif "OPP" in f.upper():
+            elif "_OPP" in f.upper():
                 categories["gegner"].append(song_data)
-            elif "FUN" in f.upper():
+            elif "_FUN" in f.upper():
                 categories["spass"].append(song_data)
             else:
                 categories["sonstiges"].append(song_data)
 
     long_song_1_data = {
         "name": long_song_1_name,
-        "display_name": "Pause: " + long_song_1_name.replace(".mp3", ""),
+        "display_name": "Pause: " + long_song_1_name.replace(".mp3", "").replace(".flac", ""),
         "icon": "🎵",
     }
     long_song_2_data = {
         "name": long_song_2_name,
-        "display_name": "Pause: " + long_song_2_name.replace(".mp3", ""),
+        "display_name": "Pause: " + long_song_2_name.replace(".mp3", "").replace(".flac", ""),
         "icon": "🎵",
     }
 
