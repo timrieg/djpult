@@ -5,6 +5,11 @@ import random
 app = Flask(__name__)
 MUSIC_FOLDER = "static/music"
 
+timeout_song_name = "Timeout.mp3"
+walkon_song_name = "Walk-On.mp3"
+long_song_1_name = "Timeout.mp3"
+long_song_2_name = "Timeout.mp3"
+
 
 @app.route("/")
 def index():
@@ -13,7 +18,8 @@ def index():
         "ass_angriff": [],
         "block": [],
         "gegner": [],
-        "sonstiges": []
+        "sonstiges": [],
+        "spass": [],
     }
 
     all_songs = []
@@ -21,16 +27,20 @@ def index():
     for f in os.listdir(MUSIC_FOLDER):
         if f.endswith((".mp3", ".wav", ".ogg")):
             icon = (
-                "⚡" if "HIT" in f.upper() or "ACE" in f.upper()
-                else "✋✋" if "BLOCK" in f.upper()
-                else "🏐" if "OPP" in f.upper()
-                else ""
+                "⚡"
+                if "HIT" in f.upper() or "ACE" in f.upper()
+                else (
+                    "✋✋"
+                    if "BLOCK" in f.upper()
+                    else "🏐" if "OPP" in f.upper() else "🎉🎉"
+                )
             )
             clean_name = (
                 f.replace("_BLOCK", "")
                 .replace("_HIT", "")
                 .replace("_ACE", "")
                 .replace("_OPP", "")
+                .replace("_Dauer", "")
                 .replace(".mp3", "")
                 .strip()
             )
@@ -44,15 +54,30 @@ def index():
                 categories["block"].append(song_data)
             elif "OPP" in f.upper():
                 categories["gegner"].append(song_data)
+            elif "FUN" in f.upper():
+                categories["spass"].append(song_data)
             else:
                 categories["sonstiges"].append(song_data)
+
+    long_song_1_data = {
+        "name": long_song_1_name,
+        "display_name": "Pause: " + long_song_1_name,
+        "icon": "🎵",
+    }
+    long_song_2_data = {
+        "name": long_song_2_name,
+        "display_name": "Pause: " + long_song_2_name,
+        "icon": "🎵",
+    }
 
     return render_template(
         "index.html",
         categories=categories,
         favicon="🎵",
-        timeout_song="Timeout.mp3",
-        walkon_song="Walk-On.mp3",
+        timeout_song=timeout_song_name,
+        walkon_song=walkon_song_name,
+        long_song_1=long_song_1_data,
+        long_song_2=long_song_2_data,
         volume=1.0,
         add_separator=True,
     )
@@ -61,6 +86,7 @@ def index():
 @app.route("/music/<filename>")
 def get_music(filename):
     return send_from_directory(MUSIC_FOLDER, filename)
+
 
 if __name__ == "__main__":
     app.run(debug=True)
