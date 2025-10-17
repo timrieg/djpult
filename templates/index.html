@@ -48,12 +48,14 @@
 </head>
 
 <body class="flex h-screen bg-gray-900 text-white">
-  <!-- Left section (3/4 of screen) -->
-  <div class="w-3/4 flex flex-col p-6">
-    <h1 class="text-3xl font-bold mb-6 text-center">DJ Pult</h1>
+  <div class="w-full flex flex-col p-6">
+    <div class="flex items-center justify-center mb-6">
+      <h1 class="text-4xl font-bold mr-4">DJ Pult</h1>
+      <img src="static/images/thumbnail_logo.png" alt="logo" class="h-15 w-12 shadow-lg" />
+    </div>
 
     <!-- Song Categories -->
-    <div class="grid grid-cols-3 gap-4 w-full">
+    <div class="grid grid-cols-5 gap-4 w-full">
       <!-- Ass/Angriff -->
       <div>
         <h2 class="text-xl font-bold mb-2 text-center">Ass/Angriff</h2>
@@ -66,12 +68,19 @@
           {% endfor %}
         </div>
       </div>
-
-
-
-      <!-- Gegner und Block (halbiert) -->
+	  
+	  <div class="flex flex-col">
+		  <h2 class="text-xl font-bold mb-2 text-center">Block</h2>
+		  <div class="flex flex-col space-y-2">
+			{% for song in categories.block %}
+			<button onclick="playAudio('static/music/{{ song.name }}')"
+			  class="px-8 py-4 text-lg rounded-lg hover:opacity-80 w-full bg-yellow-600">
+			  {{ song.icon }} {{ song.display_name }}
+			</button>
+			{% endfor %}
+		  </div>
+	  </div>
       <div class="flex flex-col">
-        <div>
           <h2 class="text-xl font-bold mb-2 text-center">Gegner</h2>
           <div class="flex flex-col space-y-2">
             {% for song in categories.gegner %}
@@ -81,22 +90,7 @@
             </button>
             {% endfor %}
           </div>
-        </div>
-
-        <div class="mt-6">
-          <h2 class="text-xl font-bold mb-2 text-center">Block</h2>
-          <div class="flex flex-col space-y-2">
-            {% for song in categories.block %}
-            <button onclick="playAudio('static/music/{{ song.name }}')"
-              class="px-8 py-4 text-lg rounded-lg hover:opacity-80 w-full bg-yellow-600">
-              {{ song.icon }} {{ song.display_name }}
-            </button>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
-      <!-- Sonstiges -->
+	  </div>
       <div>
         <h2 class="text-xl font-bold mb-2 text-center">Sonstiges</h2>
         <div class="flex flex-col space-y-2">
@@ -108,35 +102,56 @@
           {% endfor %}
         </div>
       </div>
+
+	  <div>
+        <h2 class="text-xl font-bold mb-2 text-center">Lustig</h2>
+        <div class="flex flex-col space-y-2">
+          {% for song in categories.spass %}
+          <button onclick="playAudio('static/music/{{ song.name }}')"
+            class="px-8 py-4 text-lg rounded-lg hover:opacity-80 w-full bg-green-600">
+            {{ song.icon }} {{ song.display_name }}
+          </button>
+          {% endfor %}
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Right section (1/8 of screen) -->
-  <div class="w-1/4 flex flex-col items-center justify-center bg-gray-800 p-4">
-    <!-- Timeout & Walk-On at Bottom -->
-    <div class="flex justify-between mt-6 absolute top-0">
-      <button onclick="playAudio('static/special_music/{{ timeout_song }}')"
-        class="px-10 py-4 bg-yellow-500 rounded-lg hover:bg-yellow-700 text-xl w-1/2 mr-2">
-        Timeout ⏳
-      </button>
-      <button onclick="playAudio('static/special_music/{{ walkon_song }}')"
-        class="px-10 py-4 bg-blue-500 rounded-lg hover:bg-blue-700 text-xl w-1/2 ml-2">
-        Walk-On 🎤
-      </button>
-    </div>
-
-    <div class="mt-6 flex flex-col items-center">
-      <button onclick="stopAudio()" class="mb-4 px-20 py-20 bg-red-600 rounded-lg hover:bg-red-800 text-lg w-full">
-        Stop ⏹
-      </button>
-    </div>
-
-    <!-- Vertical Volume Control -->
-    <div class="mt-6 flex flex-col items-center absolute bottom-0 h-40">
-      <label for="volume" class="block mb-2 text-lg">🔊</label>
-      <input type="range" id="volume" min="0" max="1" step="0.05" value="1.0" class="horizontal-slider"
-        oninput="setVolume(this.value)">
-    </div>
+  <!-- Right section (1/4 of screen) -->
+	<!-- Main Buttons -->
+	<div class="w-full grid grid-cols-5 justify-between gap-4 bg-gray-800 p-4 rounded-lg mt-6 absolute bottom-0">
+	<div class="grid grid-cols-1 mt-6 gap-4 w-full">
+		<button onclick="playAudio('static/special_music/{{ timeout_song }}')"
+			class="bg-yellow-500 rounded-lg hover:bg-yellow-700 text-xl px-5 py-5">
+			Timeout ⌚ 
+		</button>
+		<button onclick="playAudio('static/special_music/{{ walkon_song }}')"
+			class="bg-blue-500 rounded-lg hover:bg-blue-700 text-xl px-5 py-5">
+			Walk-On 🎤
+		</button>
+	</div>
+	<div class="grid grid-cols-1 mt-6 gap-4 w-full">
+		<button onclick="playAudio('static/special_music/{{ long_song_1.name }}')"
+			class="bg-orange-500 rounded-lg hover:bg-yellow-700 text-xl px-5 py-5">
+			{{ long_song_1.display_name }} {{ long_song_1.icon }}
+		</button>
+		<button onclick="playAudio('static/special_music/{{ long_song_2.name }}')"
+			class="bg-orange-500 rounded-lg hover:bg-blue-700 text-xl px-5 py-5">
+			{{ long_song_2.display_name }} {{ long_song_2.icon }}
+		</button>
+	</div>
+	<div class="px-10 py-10 flex flex-col items-center w-full">
+	</div>
+	<button onclick="stopAudio()" class="px-10 py-10 bg-red-600 rounded-lg hover:bg-red-800 text-lg">
+		Stop ⏹
+	</button>
+	<div class="px-10 py-10 flex flex-col items-center bottom-0 w-full">
+		<label for="volume" class="mb-1 text-lg text-center">🔊</label>
+		<input type="range" id="volume" min="0" max="1" step="0.05" value="1.0"
+			class="horizontal-slider w-64"
+			oninput="setVolume(this.value)">
+	</div>
+	</div>
 
   </div>
 </body>
