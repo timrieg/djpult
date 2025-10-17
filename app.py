@@ -1,6 +1,5 @@
 from flask import Flask, render_template, send_from_directory, jsonify
 import os
-import random
 
 app = Flask(__name__)
 MUSIC_FOLDER = "static/music"
@@ -32,7 +31,11 @@ def index():
                 else (
                     "✋✋"
                     if "BLOCK" in f.upper()
-                    else "🏐" if "OPP" in f.upper() else "🎉🎉"
+                    else (
+                        "🏐🏐"
+                        if "OPP" in f.upper()
+                        else "😂😂" if "FUN" in f.upper() else "🎉🎉"
+                    )
                 )
             )
             clean_name = (
@@ -40,7 +43,7 @@ def index():
                 .replace("_HIT", "")
                 .replace("_ACE", "")
                 .replace("_OPP", "")
-                .replace("_Dauer", "")
+                .replace("_FUN", "")
                 .replace(".mp3", "")
                 .strip()
             )
@@ -61,12 +64,12 @@ def index():
 
     long_song_1_data = {
         "name": long_song_1_name,
-        "display_name": "Pause: " + long_song_1_name,
+        "display_name": "Pause: " + long_song_1_name.replace(".mp3", ""),
         "icon": "🎵",
     }
     long_song_2_data = {
         "name": long_song_2_name,
-        "display_name": "Pause: " + long_song_2_name,
+        "display_name": "Pause: " + long_song_2_name.replace(".mp3", ""),
         "icon": "🎵",
     }
 
