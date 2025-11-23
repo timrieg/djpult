@@ -20,7 +20,9 @@
 
     function stopAudio() {
         if (currentAudio) {
-            let fadeOutTime = 1000; // 3 Sekunden
+          currentAudio.pause();
+          currentAudio = null;
+/*             let fadeOutTime = 1000; // 3 Sekunden
             let fadeSteps = 30; // Anzahl der Schritte für das Fading
             let fadeInterval = fadeOutTime / fadeSteps;
             let volumeStep = currentAudio.volume / fadeSteps;
@@ -33,7 +35,7 @@
                     currentAudio.pause();
                     currentAudio = null;
                 }
-            }, fadeInterval);
+            }, fadeInterval); */
         }
     }
 
